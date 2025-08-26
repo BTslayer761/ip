@@ -1,0 +1,36 @@
+public class List {
+    private final String[] toDoList;
+    private int numberOfTask;
+
+    public List(){ //Create a list object with 100 element capacity
+        toDoList = new String[100];
+        numberOfTask = 0;
+    }
+
+    // print out entire list with numbering
+    public void getToDoList(){
+        for(int i = 1; i < numberOfTask + 1; i++){
+            System.out.println( i + "." + toDoList[i-1]);
+        };
+    }
+
+    public void addTask(String task){
+        toDoList[numberOfTask] = task;
+        numberOfTask++;
+        System.out.println("Added: " + task);
+    }
+
+    public void deleteTask(int index){
+        if (index < 0 || index > numberOfTask) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        //shift elements to the left
+        for(int j = index - 1; j < numberOfTask - 1; j++){
+            toDoList[j] = toDoList[j + 1];
+        }
+        toDoList[numberOfTask-1] = null;
+        numberOfTask--;
+    }
+
+}
