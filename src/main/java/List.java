@@ -1,21 +1,24 @@
 public class List {
-    private final String[] toDoList;
+    private final List_Item[] toDoList;
     private int numberOfTask;
 
     public List(){ //Create a list object with 100 element capacity
-        toDoList = new String[100];
+        toDoList = new List_Item[100];
         numberOfTask = 0;
     }
+
+
 
     // print out entire list with numbering
     public void getToDoList(){
         for(int i = 1; i < numberOfTask + 1; i++){
-            System.out.println( i + "." + toDoList[i-1]);
+            System.out.print( i + ".");
+            toDoList[i-1].printTask();
         };
     }
 
     public void addTask(String task){
-        toDoList[numberOfTask] = task;
+        toDoList[numberOfTask] = new List_Item(task);
         numberOfTask++;
         System.out.println("Added: " + task);
     }

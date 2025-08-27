@@ -23,18 +23,16 @@ public class Bambot {
             else if(message.equalsIgnoreCase("remove")) {
                 System.out.print("Which index do you wanna remove: ");
                 int index = scanner.nextInt();
-                System.out.println("Tasked" + index + "removed: ");
+                System.out.println("Tasked " + index + " removed ");
                 myList.deleteTask(index);
-
-                System.out.println("__________________________");
             }
             else if(message.equalsIgnoreCase("list")) {
                 myList.getToDoList();
                 System.out.println("__________________________");
             }
+            else if(message.equalsIgnoreCase("mark")) {}
 
             else {
-                System.out.println("_________________________");
                 System.out.println(message);
                 System.out.println("__________________________");
             }
@@ -48,9 +46,5 @@ public class Bambot {
         System.out.println("__________________________");
 
         echo();
-
-        System.out.println("__________________________");
-        System.out.println(" Bye. Hope to see you again soon!");
-        System.out.println("__________________________");
     }
 }
