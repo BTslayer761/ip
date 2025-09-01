@@ -1,5 +1,5 @@
 public class Deadline extends List_Item{
-    protected String doneBy;
+    private String doneBy;
     public Deadline(String description, String deadline) {
         super(description);
         doneBy = deadline;
