@@ -31,6 +31,7 @@ public class Bambot {
         System.out.println(DIVIDER);
         echo();
     }
+
     private static boolean handleCommands(String message) {
         String[] commandAndInput = message.split(" ", 2);
         String command = commandAndInput[0].toLowerCase();

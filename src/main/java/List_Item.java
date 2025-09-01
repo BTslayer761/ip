@@ -1,6 +1,6 @@
 public class List_Item {
-    private final String Description;
-    private Boolean isDone;
+    protected final String Description;
+    protected Boolean isDone;
 
     public List_Item(String task){
         Description = task;
@@ -29,4 +29,5 @@ public class List_Item {
     public void unmarkTask(){
         isDone = false;
     }
+
 }
