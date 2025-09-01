@@ -10,9 +10,14 @@ public class Bambot {
     // A function to print the entire list out
     private static void printList() {
         System.out.println(DIVIDER);
+        int counter = 0; // used to check if list is empty
         for (int i = 0; i < myList.size(); i++) {
             System.out.print(i + 1);
-            myList.get(i).printTask();
+            System.out.println(myList.get(i));
+            counter++;
+        }
+        if (counter == 0) {
+            System.out.println("List is empty");
         }
         System.out.println(DIVIDER);
     }
@@ -23,7 +28,7 @@ public class Bambot {
             if (handleCommands(message)) return;
         }
     }
-    
+
     public static void main(String[] args) {
         System.out.println(DIVIDER);
         System.out.println("Woof! I'm Bambot");
@@ -32,27 +37,35 @@ public class Bambot {
         echo();
     }
 
+    // Run different functions base on the first word(Command) in the input
     private static boolean handleCommands(String message) {
         String[] commandAndInput = message.split(" ", 2);
-        String command = commandAndInput[0].toLowerCase();
+        String command = commandAndInput[0].toLowerCase(); //ensure the command is recognised regardless of capitalisation
+        String input = (commandAndInput.length > 1) ? commandAndInput[1] : "";
         switch (command) {
         case "bye":
             printByeMessage();
             return true;
-        case "add":
-            handleAddCommand(commandAndInput);
+        case "todo":
+            handleToDoCommand(input);
+            break;
+        case "deadline":
+            handleDeadlineCommand(input);
+            break;
+        case "event":
+            handleEventCommand(input);
             break;
         case "remove":
-            handleRemoveCommand(commandAndInput);
+            handleRemoveCommand(input);
             break;
         case "list":
             printList();
             break;
         case "mark":
-            handleMarkCommand(commandAndInput);
+            handleMarkCommand(input);
             break;
         case "unmark":
-            handleUnmarkCommand(commandAndInput);
+            handleUnmarkCommand(input);
             break;
         default:
             System.out.println(message);
@@ -62,31 +75,48 @@ public class Bambot {
         return false;
     }
 
-    private static void handleUnmarkCommand(String[] commandAndInput) {
-        int unmarkIndex = Integer.parseInt(commandAndInput[1]);
-        if(unmarkIndex < 1 || unmarkIndex >= myList.size() + 1){
+    private static void handleUnmarkCommand(String input) {
+        int unmarkIndex = Integer.parseInt(input);
+        if (unmarkIndex < 1 || unmarkIndex >= myList.size() + 1) {
             throw new IndexOutOfBoundsException("index out of bounds");
         }
         myList.get(unmarkIndex - 1).unmarkTask();
         printList();
     }
 
-    private static void handleMarkCommand(String[] commandAndInput) {
-        int markIndex = Integer.parseInt(commandAndInput[1]);
-        if(markIndex < 1 || markIndex >= myList.size() + 1){
+    private static void handleMarkCommand(String input) {
+        int markIndex = Integer.parseInt(input);
+        if (markIndex < 1 || markIndex >= myList.size() + 1) {
             throw new IndexOutOfBoundsException("index out of bounds");
         }
         myList.get(markIndex - 1).markTask();
         printList();
     }
 
-    private static void handleRemoveCommand(String[] commandAndInput) {
-        myList.remove(Integer.parseInt(commandAndInput[1]) - 1);
+    private static void handleRemoveCommand(String input) {
+        myList.remove(Integer.parseInt(input) - 1);
         printList();
     }
 
-    private static void handleAddCommand(String[] commandAndInput) {
-        List_Item newItem = new List_Item(commandAndInput[1]);
+    private static void handleToDoCommand(String input) {
+        ToDo newItem = new ToDo(input);
+        myList.add(newItem);
+        printList();
+    }
+
+    private static void handleDeadlineCommand(String input) {
+        String[] inputs = input.split("/by ", 2);
+        Deadline newItem = new Deadline(inputs[0], inputs[1]);
+        myList.add(newItem);
+        printList();
+    }
+
+    private static void handleEventCommand(String input) {
+        String[] inputs = input.split("/from ", 2);
+        String[] timings = inputs[1].split("/to", 2);
+        String startTime = timings[0];
+        String endTime = timings[1];
+        Event newItem = new Event(inputs[0], startTime, endTime);
         myList.add(newItem);
         printList();
     }
