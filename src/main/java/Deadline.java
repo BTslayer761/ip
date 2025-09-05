@@ -1,4 +1,4 @@
-public class Deadline extends List_Item {
+public class Deadline extends ListItem {
     private String doneBy;
 
     public Deadline(String description, String deadline) {

@@ -1,4 +1,4 @@
-public class Event extends List_Item {
+public class Event extends ListItem {
     private String startTime;
     private String endTime;
 

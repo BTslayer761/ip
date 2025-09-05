@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Bambot {
     public static final String DIVIDER = "__________________________";
     public static final int MAX_CAPACITY = 100;
-    static ArrayList<List_Item> myList = new ArrayList<>(MAX_CAPACITY); //create an array with initial size 100
+    static ArrayList<ListItem> myList = new ArrayList<>(MAX_CAPACITY); //create an array with initial size 100
     static Scanner scanner = new Scanner(System.in); //create a scanner
 
     // A function to print the entire list out
@@ -27,14 +27,6 @@ public class Bambot {
             String message = scanner.nextLine();
             if (handleCommands(message)) return;
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(DIVIDER);
-        System.out.println("Woof! I'm Bambot");
-        System.out.println("What can I do for you?");
-        System.out.println(DIVIDER);
-        echo();
     }
 
     // Run different functions base on the first word(Command) in the input
@@ -126,5 +118,14 @@ public class Bambot {
         System.out.println(" Bye. Hope to see you again soon!");
         System.out.println(DIVIDER);
     }
+
+    public static void main(String[] args) {
+        System.out.println(DIVIDER);
+        System.out.println("Woof! I'm Bambot");
+        System.out.println("What can I do for you?");
+        System.out.println(DIVIDER);
+        echo();
+    }
 }
+
 

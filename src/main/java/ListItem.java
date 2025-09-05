@@ -1,8 +1,8 @@
-public class List_Item {
+public class ListItem {
     protected final String Description;
     protected Boolean isDone;
 
-    public List_Item(String task) {
+    public ListItem(String task) {
         Description = task;
         isDone = false;
     }
