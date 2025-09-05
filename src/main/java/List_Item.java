@@ -16,10 +16,9 @@ public class List_Item {
     }
 
     public String toString() {
-        if(isDone){
+        if (isDone) {
             return "[x]" + Description;
-        }
-        else{
+        } else {
             return "[ ]" + Description;
         }
     }
