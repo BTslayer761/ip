@@ -1,3 +1,8 @@
+import Bambot.tasks.Deadline;
+import Bambot.tasks.Event;
+import Bambot.tasks.ListItem;
+import Bambot.tasks.ToDo;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

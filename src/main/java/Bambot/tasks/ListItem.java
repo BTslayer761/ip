@@ -1,3 +1,5 @@
+package Bambot.tasks;
+
 public class ListItem {
     protected final String Description;
     protected Boolean isDone;
