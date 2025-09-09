@@ -1,0 +1,7 @@
+hello
+todo cs2113 lecture
+deadline tutorial /by 18th nov
+event birthday /from 17th april /to 18th april
+remove 1
+mark 1
+bye
