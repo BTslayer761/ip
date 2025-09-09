@@ -45,7 +45,11 @@ public class Bambot {
             handleDeadlineCommand(input);
             break;
         case "event":
-            handleEventCommand(input);
+            try {
+                handleEventCommand(input);
+            }catch (BambotException e) {
+                System.out.println(e.getMessage());
+            }
             break;
         case "remove":
             handleRemoveCommand(input);
@@ -60,7 +64,7 @@ public class Bambot {
             handleUnmarkCommand(input);
             break;
         default:
-            System.out.println(message);
+            System.out.println(message + " is not a valid command");
             System.out.println(DIVIDER);
             break;
         }
@@ -68,26 +72,53 @@ public class Bambot {
     }
 
     private static void handleUnmarkCommand(String input) {
-        int unmarkIndex = Integer.parseInt(input);
-        if (unmarkIndex < 1 || unmarkIndex >= myList.size() + 1) {
-            throw new IndexOutOfBoundsException("index out of bounds");
+        int unmarkIndex = -1;
+        try {
+            unmarkIndex = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Input must be a number (Example: mark 2)");
         }
-        myList.get(unmarkIndex - 1).unmarkTask();
-        printList();
+        try {
+            myList.get(unmarkIndex - 1).unmarkTask();
+            printList();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index is out of bounds:" + input);
+            System.out.println("Pls use a number in the list");
+        }
     }
 
     private static void handleMarkCommand(String input) {
-        int markIndex = Integer.parseInt(input);
-        if (markIndex < 1 || markIndex >= myList.size() + 1) {
-            throw new IndexOutOfBoundsException("index out of bounds");
+        int markIndex = -1;
+        try {
+            markIndex = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Input must be a number (Example: mark 2)");
         }
-        myList.get(markIndex - 1).markTask();
-        printList();
+        try {
+            myList.get(markIndex - 1).markTask();
+            printList();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index is out of bounds:" + input);
+            System.out.println("Pls use a number in the list");
+            printList();
+        }
     }
 
     private static void handleRemoveCommand(String input) {
-        myList.remove(Integer.parseInt(input) - 1);
-        printList();
+        int removeIndex = -1;
+        try {
+            removeIndex = Integer.parseInt(input) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("Input must be a number (Example: remove 2)");
+        }
+        try {
+            myList.remove(removeIndex);
+            printList();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index is out of bounds:" + input);
+            System.out.println("Pls use a number in the list");
+            printList();
+        }
     }
 
     private static void handleToDoCommand(String input) {
@@ -98,14 +129,24 @@ public class Bambot {
 
     private static void handleDeadlineCommand(String input) {
         String[] inputs = input.split("/by ", 2);
-        Deadline newItem = new Deadline(inputs[0], inputs[1]);
-        myList.add(newItem);
-        printList();
+        try {
+            Deadline newItem = new Deadline(inputs[0], inputs[1]);
+            myList.add(newItem);
+            printList();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid input format. Correct format: deadline description /from (deadline time)");
+        }
     }
 
-    private static void handleEventCommand(String input) {
+    private static void handleEventCommand(String input) throws BambotException {
         String[] inputs = input.split("/from ", 2);
+        if(inputs.length != 2) {
+            throw new BambotException("Invalid input format. Correct format: event description /from (start time) /to (end time)");
+        }
         String[] timings = inputs[1].split("/to", 2);
+        if(timings.length != 2) {
+            throw new BambotException("Invalid input format. Correct format: event description /from (start time) /to (end time)");
+        }
         String startTime = timings[0];
         String endTime = timings[1];
         Event newItem = new Event(inputs[0], startTime, endTime);
