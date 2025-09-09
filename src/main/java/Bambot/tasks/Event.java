@@ -1,3 +1,5 @@
+package Bambot.tasks;
+
 public class Event extends ListItem {
     private String startTime;
     private String endTime;
