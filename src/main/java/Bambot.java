@@ -52,7 +52,7 @@ public class Bambot {
         case "event":
             try {
                 handleEventCommand(input);
-            }catch (BambotException e) {
+            } catch (BambotException e) {
                 System.out.println(e.getMessage());
             }
             break;
@@ -147,11 +147,11 @@ public class Bambot {
 
     private static void handleEventCommand(String input) throws BambotException {
         String[] inputs = input.split("/from ", 2);
-        if(inputs.length != 2) {
+        if (inputs.length != 2) {
             throw new BambotException("Invalid input format. Correct format: event description /from (start time) /to (end time)");
         }
         String[] timings = inputs[1].split("/to", 2);
-        if(timings.length != 2) {
+        if (timings.length != 2) {
             throw new BambotException("Invalid input format. Correct format: event description /from (start time) /to (end time)");
         }
         String startTime = timings[0];
