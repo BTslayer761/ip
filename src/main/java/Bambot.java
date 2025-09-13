@@ -56,8 +56,8 @@ public class Bambot {
                 System.out.println(e.getMessage());
             }
             break;
-        case "remove":
-            handleRemoveCommand(input);
+        case "delete":
+            handleDeleteCommand(input);
             break;
         case "list":
             printList();
@@ -109,7 +109,7 @@ public class Bambot {
         }
     }
 
-    private static void handleRemoveCommand(String input) {
+    private static void handleDeleteCommand(String input) {
         int removeIndex = -1;
         try {
             removeIndex = Integer.parseInt(input) - 1;
@@ -117,8 +117,10 @@ public class Bambot {
             System.out.println("Input must be a number (Example: remove 2)");
         }
         try {
-            myList.remove(removeIndex);
-            printList();
+            ListItem removedTasked = myList.remove(removeIndex);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println(" " + removedTasked);
+            System.out.println("Now you have " + myList.size() + " tasks in the list");
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Index is out of bounds:" + input);
             System.out.println("Pls use a number in the list");
