@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
 
 public class Bambot {
@@ -53,6 +54,12 @@ public class Bambot {
         }
     }
 
+    private static void appendToFile(String textToAdd) throws IOException {
+        FileWriter taskFile = new FileWriter("src/tasks.txt", true);
+        taskFile.write(textToAdd + System.lineSeparator());
+        taskFile.close();
+    }
+
     private static void echo() {
         while (true) {
             String message = scanner.nextLine();
@@ -70,7 +77,11 @@ public class Bambot {
             printByeMessage();
             return true;
         case "todo":
-            handleToDoCommand(input);
+            try {
+                handleToDoCommand(input);
+            }catch (IOException e){
+                System.out.println("Error in writing to file");
+            }
             break;
         case "deadline":
             handleDeadlineCommand(input);
@@ -159,10 +170,13 @@ public class Bambot {
         }
     }
 
-    private static void handleToDoCommand(String input) {
+    private static void handleToDoCommand(String input) throws IOException {
         ToDo newItem = new ToDo(input);
+        String itemToAdd = newItem.toString();
+        appendToFile(itemToAdd);
         myList.add(newItem);
-        printList();
+        //printList();
+        printFileContents();
     }
 
     private static void handleDeadlineCommand(String input) {
