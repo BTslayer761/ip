@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Bambot {
     public static final String DIVIDER = "__________________________";
@@ -31,16 +32,24 @@ public class Bambot {
 
     private static void createFile() throws IOException {
         File tasks = new File("src/tasks.txt");
-        if(!tasks.exists()){
+        if (!tasks.exists()) {
             try {
                 if (tasks.createNewFile()) {
                     System.out.println("Task File has been created in" + tasks.getAbsolutePath());
                 } else {
                     System.out.println("Failed to create Task File");
                 }
-            }catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println("An error occurred while creating the file");
             }
+        }
+    }
+
+    private static void printFileContents() throws IOException {
+        File taskFile = new File("src/tasks.txt");
+        Scanner fileScanner = new Scanner(taskFile);
+        while (fileScanner.hasNext()) {
+            System.out.println(fileScanner.nextLine());
         }
     }
 
@@ -86,6 +95,11 @@ public class Bambot {
             handleUnmarkCommand(input);
             break;
         default:
+            try {
+                printFileContents();
+            } catch (IOException e) {
+                System.out.println("An error occurred while reading the file");
+            }
             System.out.println(message + " is not a valid command");
             System.out.println(DIVIDER);
             break;
