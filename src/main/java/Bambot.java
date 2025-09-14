@@ -3,8 +3,10 @@ import Bambot.tasks.Event;
 import Bambot.tasks.ListItem;
 import Bambot.tasks.ToDo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
 
 public class Bambot {
     public static final String DIVIDER = "__________________________";
@@ -25,6 +27,21 @@ public class Bambot {
             System.out.println("List is empty");
         }
         System.out.println(DIVIDER);
+    }
+
+    private static void createFile() throws IOException {
+        File tasks = new File("src/tasks.txt");
+        if(!tasks.exists()){
+            try {
+                if (tasks.createNewFile()) {
+                    System.out.println("Task File has been created in" + tasks.getAbsolutePath());
+                } else {
+                    System.out.println("Failed to create Task File");
+                }
+            }catch (IOException e) {
+                System.out.println("An error occurred while creating the file");
+            }
+        }
     }
 
     private static void echo() {
@@ -167,11 +184,12 @@ public class Bambot {
         System.out.println(DIVIDER);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println(DIVIDER);
         System.out.println("Woof! I'm Bambot");
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
+        createFile();
         echo();
     }
 }
