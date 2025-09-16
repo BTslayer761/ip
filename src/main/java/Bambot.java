@@ -30,7 +30,7 @@ public class Bambot {
     }
 
     private static void createFile() throws IOException {
-        File tasks = new File("src/tasks.txt");
+        File tasks = new File("./tasks.txt");
         if (!tasks.exists()) {
             try {
                 if (tasks.createNewFile()) {
@@ -193,7 +193,7 @@ public class Bambot {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
         createFile();
-        Storage.writeToArray("src/tasks.txt", myList);
+        Storage.writeToArray("./tasks.txt", myList);
         echo();
     }
 }

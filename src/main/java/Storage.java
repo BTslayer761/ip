@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Storage {
 
     public static void writeToFile(ArrayList<ListItem> list) throws IOException {
-        FileWriter taskFile = new FileWriter("src/tasks.txt");
+        FileWriter taskFile = new FileWriter("./tasks.txt");
         for (ListItem listItem : list) {
             taskFile.write(listItem.toStorageString() + System.lineSeparator());
         }
@@ -21,6 +21,9 @@ public class Storage {
 
     public static void writeToArray(String filePath, ArrayList<ListItem> list) throws IOException {
         File file = new File(filePath);
+        if (!file.exists()) {
+            return;
+        }
         Scanner fileScanner = new Scanner(file);
         while (fileScanner.hasNextLine()) {
             boolean isDone = false;
@@ -51,5 +54,6 @@ public class Storage {
                 break;
             }
         }
+        fileScanner.close();
     }
 }
