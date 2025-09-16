@@ -4,10 +4,19 @@ public class ListItem {
     protected final String Description;
     protected Boolean isDone;
 
-    public ListItem(String task) {
+    public ListItem(String task, boolean isDone) {
         Description = task;
-        isDone = false;
+        this.isDone = false;
     }
+
+    public boolean getIsDone() {
+        return isDone;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
 
     public void markTask() {
         isDone = true;
@@ -23,6 +32,10 @@ public class ListItem {
         } else {
             return "[ ]" + Description;
         }
+    }
+
+    public String toStorageString() {
+        return (this.getClass().getSimpleName() + "," + Description + "," + isDone);
     }
 
 }
