@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
 
 public class Bambot {
     public static final String DIVIDER = "__________________________";
     static ArrayList<ListItem> myList = new ArrayList<>(); //create an array with initial size 100
-    static Scanner scanner = new Scanner(System.in); //create a scanner
+    static Scanner scanner = new Scanner(System.in);//create a scanner
 
     // A function to print the entire list out
     private static void printList() {
@@ -45,27 +44,13 @@ public class Bambot {
         }
     }
 
-    private static void printFileContents() throws IOException {
-        File taskFile = new File("src/tasks.txt");
-        Scanner fileScanner = new Scanner(taskFile);
-        while (fileScanner.hasNext()) {
-            System.out.println(fileScanner.nextLine());
-        }
-    }
-
-    private static void appendToFile(String textToAdd) throws IOException {
-        FileWriter taskFile = new FileWriter("src/tasks.txt", true);
-        taskFile.write(textToAdd + System.lineSeparator());
-        taskFile.close();
-    }
-
     private static void echo() {
         while (true) {
             String message = scanner.nextLine();
             boolean validCommand = false;
-            try{
+            try {
                 validCommand = handleCommands(message);
-            }catch(BambotException e){
+            } catch (BambotException e) {
                 System.out.println(e.getMessage());
             }
             if (validCommand)
@@ -80,14 +65,15 @@ public class Bambot {
         String input = (commandAndInput.length > 1) ? commandAndInput[1] : "";
         switch (command) {
         case "bye":
-            printByeMessage();
+            try {
+                Storage.writeToFile(myList);
+                printByeMessage();
+            } catch (IOException e) {
+                System.out.println("An error occurred while writing to file");
+            }
             return true;
         case "todo":
-            try {
-                handleToDoCommand(input);
-            }catch (IOException e){
-                System.out.println("Error in writing to file");
-            }
+            handleToDoCommand(input);
             break;
         case "deadline":
             handleDeadlineCommand(input);
@@ -108,11 +94,6 @@ public class Bambot {
             handleUnmarkCommand(input);
             break;
         default:
-            try {
-                printFileContents();
-            } catch (IOException e) {
-                System.out.println("An error occurred while reading the file");
-            }
             System.out.println(message + " is not a valid command");
             System.out.println(DIVIDER);
             break;
@@ -120,7 +101,7 @@ public class Bambot {
         return false;
     }
 
-    private static void handleUnmarkCommand(String input) throws BambotException{
+    private static void handleUnmarkCommand(String input) throws BambotException {
         int unmarkIndex = -1;
         try {
             unmarkIndex = Integer.parseInt(input);
@@ -167,38 +148,35 @@ public class Bambot {
         }
     }
 
-    private static void handleToDoCommand(String input) throws IOException {
-        ToDo newItem = new ToDo(input);
+    private static void handleToDoCommand(String input) {
+        ToDo newItem = new ToDo(input, false);
         String itemToAdd = newItem.toString();
-        appendToFile(itemToAdd);
         myList.add(newItem);
-        //printList();
-        printFileContents();
+        printList();
     }
 
-    private static void handleDeadlineCommand(String input) throws BambotException{
-        String[] inputs = input.split("/by ", 2);
-        try {
-            Deadline newItem = new Deadline(inputs[0], inputs[1]);
-            myList.add(newItem);
-            printList();
-        } catch (IndexOutOfBoundsException e) {
+    private static void handleDeadlineCommand(String input) throws BambotException {
+        String[] inputs = input.split("/by ");
+        if (inputs.length != 2) {
             throw new BambotException("Invalid input format. Correct format: deadline description /from (deadline time)");
         }
+        Deadline newItem = new Deadline(inputs[0], false, inputs[1]);
+        myList.add(newItem);
+        printList();
     }
 
     private static void handleEventCommand(String input) throws BambotException {
-        String[] inputs = input.split("/from ", 2);
+        String[] inputs = input.split("/from ");
         if (inputs.length != 2) {
             throw new BambotException("Invalid input format. Correct format: event description /from (start time) /to (end time)");
         }
-        String[] timings = inputs[1].split("/to", 2);
+        String[] timings = inputs[1].split("/to");
         if (timings.length != 2) {
             throw new BambotException("Invalid input format. Correct format: event description /from (start time) /to (end time)");
         }
         String startTime = timings[0];
         String endTime = timings[1];
-        Event newItem = new Event(inputs[0], startTime, endTime);
+        Event newItem = new Event(inputs[0], false, startTime, endTime);
         myList.add(newItem);
         printList();
     }
@@ -215,6 +193,7 @@ public class Bambot {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
         createFile();
+        Storage.writeToArray("src/tasks.txt", myList);
         echo();
     }
 }
