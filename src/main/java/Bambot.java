@@ -12,8 +12,7 @@ import java.io.FileNotFoundException;
 
 public class Bambot {
     public static final String DIVIDER = "__________________________";
-    public static final int MAX_CAPACITY = 100;
-    static ArrayList<ListItem> myList = new ArrayList<>(MAX_CAPACITY); //create an array with initial size 100
+    static ArrayList<ListItem> myList = new ArrayList<>(); //create an array with initial size 100
     static Scanner scanner = new Scanner(System.in); //create a scanner
 
     // A function to print the entire list out
@@ -63,12 +62,19 @@ public class Bambot {
     private static void echo() {
         while (true) {
             String message = scanner.nextLine();
-            if (handleCommands(message)) return;
+            boolean validCommand = false;
+            try{
+                validCommand = handleCommands(message);
+            }catch(BambotException e){
+                System.out.println(e.getMessage());
+            }
+            if (validCommand)
+                return;
         }
     }
 
     // Run different functions base on the first word(Command) in the input
-    private static boolean handleCommands(String message) {
+    private static boolean handleCommands(String message) throws BambotException {
         String[] commandAndInput = message.split(" ", 2);
         String command = commandAndInput[0].toLowerCase(); //ensure the command is recognised regardless of capitalisation
         String input = (commandAndInput.length > 1) ? commandAndInput[1] : "";
@@ -87,11 +93,7 @@ public class Bambot {
             handleDeadlineCommand(input);
             break;
         case "event":
-            try {
-                handleEventCommand(input);
-            } catch (BambotException e) {
-                System.out.println(e.getMessage());
-            }
+            handleEventCommand(input);
             break;
         case "delete":
             handleDeleteCommand(input);
@@ -118,45 +120,42 @@ public class Bambot {
         return false;
     }
 
-    private static void handleUnmarkCommand(String input) {
+    private static void handleUnmarkCommand(String input) throws BambotException{
         int unmarkIndex = -1;
         try {
             unmarkIndex = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            System.out.println("Input must be a number (Example: mark 2)");
+            throw new BambotException("Input must be a number (Example: mark 2)");
         }
         try {
             myList.get(unmarkIndex - 1).unmarkTask();
             printList();
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Index is out of bounds:" + input);
-            System.out.println("Pls use a number in the list");
+            throw new BambotException("Index is out of bounds:" + input);
         }
     }
 
-    private static void handleMarkCommand(String input) {
+    private static void handleMarkCommand(String input) throws BambotException {
         int markIndex = -1;
         try {
             markIndex = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            System.out.println("Input must be a number (Example: mark 2)");
+            throw new BambotException("Input must be a number (Example: mark 2)");
         }
         try {
             myList.get(markIndex - 1).markTask();
             printList();
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Index is out of bounds:" + input);
-            System.out.println("Pls use a number in the list");
-            printList();
+            throw new BambotException("Index is out of bounds:" + input + "\n" + "Pls use a number in the list");
         }
     }
 
-    private static void handleDeleteCommand(String input) {
+    private static void handleDeleteCommand(String input) throws BambotException {
         int removeIndex = -1;
         try {
             removeIndex = Integer.parseInt(input) - 1;
         } catch (NumberFormatException e) {
-            System.out.println("Input must be a number (Example: remove 2)");
+            throw new BambotException("Input must be a number (Example: delete 2)");
         }
         try {
             ListItem removedTasked = myList.remove(removeIndex);
@@ -164,9 +163,7 @@ public class Bambot {
             System.out.println(" " + removedTasked);
             System.out.println("Now you have " + myList.size() + " tasks in the list");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Index is out of bounds:" + input);
-            System.out.println("Pls use a number in the list");
-            printList();
+            throw new BambotException("Index is out of bounds:" + input);
         }
     }
 
@@ -179,14 +176,14 @@ public class Bambot {
         printFileContents();
     }
 
-    private static void handleDeadlineCommand(String input) {
+    private static void handleDeadlineCommand(String input) throws BambotException{
         String[] inputs = input.split("/by ", 2);
         try {
             Deadline newItem = new Deadline(inputs[0], inputs[1]);
             myList.add(newItem);
             printList();
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid input format. Correct format: deadline description /from (deadline time)");
+            throw new BambotException("Invalid input format. Correct format: deadline description /from (deadline time)");
         }
     }
 
