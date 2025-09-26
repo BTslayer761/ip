@@ -1,16 +1,11 @@
-import Bambot.tasks.Deadline;
-import Bambot.tasks.Event;
-import Bambot.tasks.ListItem;
-import Bambot.tasks.ToDo;
+import Bambot.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class Bambot {
-    static ArrayList<ListItem> myList = new ArrayList<>(); //create an array with initial size 100
+    static ArrayList<Task> myList = new ArrayList<>(); //create an array with initial size 100
     static Scanner scanner = new Scanner(System.in);//create a scanner
 
     // A function to print the entire list out
@@ -20,7 +15,6 @@ public class Bambot {
             String message = scanner.nextLine();
             boolean validCommand = false;
             try {
-                validCommand = handleCommands(message);
                 validCommand = Parser.handleCommands(message, myList);
             } catch (BambotException e) {
                 System.out.println(e.getMessage());
