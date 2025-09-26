@@ -1,6 +1,6 @@
 package Bambot.tasks;
 
-public class Deadline extends ListItem {
+public class Deadline extends Task {
     private String doneBy;
 
     public Deadline(String description, boolean isDone, String deadline) {
