@@ -1,25 +1,56 @@
 import Bambot.tasks.Event;
 import Bambot.tasks.Deadline;
-import Bambot.tasks.ListItem;
+import Bambot.tasks.Task;
 import Bambot.tasks.ToDo;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Storage {
+    public static final String DIVIDER = "__________________________";
 
-    public static void writeToFile(ArrayList<ListItem> list) throws IOException {
+    public static void printList(ArrayList<Task> myList) {
+        System.out.println(DIVIDER);
+        int counter = 0; // used to check if list is empty
+        for (int i = 0; i < myList.size(); i++) {
+            System.out.print(i + 1);
+            System.out.println(myList.get(i));
+            counter++;
+        }
+        if (counter == 0) {
+            System.out.println("List is empty");
+        }
+        System.out.println(DIVIDER);
+    }
+
+    public static void createFile() throws IOException {
+        File tasks = new File("./tasks.txt");
+        if (!tasks.exists()) {
+            try {
+                if (tasks.createNewFile()) {
+                    System.out.println("Task File has been created in" + tasks.getAbsolutePath());
+                } else {
+                    System.out.println("Failed to create Task File");
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred while creating the file");
+            }
+        }
+    }
+
+    public static void writeToFile(ArrayList<Task> list) throws IOException {
         FileWriter taskFile = new FileWriter("./tasks.txt");
-        for (ListItem listItem : list) {
-            taskFile.write(listItem.toStorageString() + System.lineSeparator());
+        for (Task task : list) {
+            taskFile.write(task.toStorageString() + System.lineSeparator());
         }
         taskFile.close();
     }
 
-    public static void writeToArray(String filePath, ArrayList<ListItem> list) throws IOException {
+    public static void writeToArray(String filePath, ArrayList<Task> list) throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
             return;
@@ -31,7 +62,8 @@ public class Storage {
             String[] stringComponents = line.split(",");
             int stringComponentsLength = stringComponents.length;
             if (stringComponentsLength >= 3) {
-                isDone = Boolean.parseBoolean(stringComponents[2]);
+                isDone = Boolean.parseBoolean(stringComponents[2].trim());
+                System.out.println("isDone: " + isDone);
             }
             switch (stringComponents[0]) {
             case "ToDo":
