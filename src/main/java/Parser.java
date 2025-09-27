@@ -3,43 +3,38 @@ import java.io.IOException;
 public class Parser {
 
 
-    public static boolean handleCommands(String message, ArrayList<Task> myList) throws BambotException {
+    public static boolean handleCommands(String message, TaskList tasks) throws BambotException, IOException {
         String[] commandAndInput = message.split(" ", 2);
         String command = commandAndInput[0].toLowerCase(); //ensure the command is recognised regardless of capitalisation
         String input = (commandAndInput.length > 1) ? commandAndInput[1] : "";
         switch (command) {
         case "bye":
-            try {
-                Storage.writeToFile(myList);
-                printByeMessage();
-            } catch (IOException e) {
-                System.out.println("An error occurred while writing to file");
-            }
+            tasks.writeToFile("data/tasks.txt");
             return true;
         case "todo":
-            addToDo(input, myList);
+            tasks.addToDo(input);
             break;
         case "deadline":
-            addDeadline(input, myList);
+            tasks.addDeadline(input);
             break;
         case "event":
-            addEvent(input, myList);
+            tasks.addEvent(input);
             break;
         case "delete":
-            deleteTask(input, myList);
+            tasks.deleteTask(input);
             break;
         case "list":
-            Storage.printList(myList);
+            tasks.printList();
             break;
         case "mark":
-            markTask(input, myList);
+            tasks.markTask(input);
             break;
         case "unmark":
-            unmarkTask(input, myList);
+            tasks.unmarkTask(input);
             break;
         default:
             System.out.println(message + " is not a valid command");
-            System.out.println(Storage.DIVIDER);
+            System.out.println(Ui.DIVIDER);
             break;
         }
         return false;

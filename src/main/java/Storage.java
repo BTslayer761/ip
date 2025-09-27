@@ -1,61 +1,24 @@
-import Bambot.tasks.Event;
-import Bambot.tasks.Deadline;
-import Bambot.tasks.Task;
-import Bambot.tasks.ToDo;
-
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Storage {
-    public static final String DIVIDER = "__________________________";
+    private static String filePath;
 
-    public static void printList(ArrayList<Task> myList) {
-        System.out.println(DIVIDER);
-        int counter = 0; // used to check if list is empty
-        for (int i = 0; i < myList.size(); i++) {
-            System.out.print(i + 1);
-            System.out.println(myList.get(i));
-            counter++;
-        }
-        if (counter == 0) {
-            System.out.println("List is empty");
-        }
-        System.out.println(DIVIDER);
-    }
-
-    public static void createFile() throws IOException {
-        File tasks = new File("./tasks.txt");
-        if (!tasks.exists()) {
-            try {
-                if (tasks.createNewFile()) {
-                    System.out.println("Task File has been created in" + tasks.getAbsolutePath());
-                } else {
-                    System.out.println("Failed to create Task File");
-                }
-            } catch (IOException e) {
-                System.out.println("An error occurred while creating the file");
-            }
-        }
-    }
-
-    public static void writeToFile(ArrayList<Task> list) throws IOException {
-        FileWriter taskFile = new FileWriter("./tasks.txt");
-        for (Task task : list) {
-            taskFile.write(task.toStorageString() + System.lineSeparator());
-        }
-        taskFile.close();
-    }
-
-    public static void writeToArray(String filePath, ArrayList<Task> list) throws IOException {
+    public Storage(String filepath) throws IOException {
+        filePath = filepath;
         File file = new File(filePath);
-        if (!file.exists()) {
-            return;
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs(); // create data/ folder if it doesn't exist
         }
-        Scanner fileScanner = new Scanner(file);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+    }
+
+    public void writeToArray(TaskList list) throws IOException {
+        Scanner fileScanner = new Scanner(new File(filePath));
         while (fileScanner.hasNextLine()) {
             boolean isDone = false;
             String line = fileScanner.nextLine();
@@ -67,14 +30,14 @@ public class Storage {
             }
             switch (stringComponents[0]) {
             case "ToDo":
-                list.add(new ToDo(stringComponents[1], isDone));
+                list.addTodoFromStorage(stringComponents[1], isDone);
                 break;
             case "Deadline":
                 if (stringComponentsLength < 4) {
                     continue;
                 }
                 String doneBy = stringComponents[3];
-                list.add(new Deadline(stringComponents[1], isDone, doneBy));
+                list.addDeadlineFromStorage(stringComponents[1], isDone, doneBy);
                 break;
             case "Event":
                 if (stringComponentsLength < 5) {
@@ -82,7 +45,7 @@ public class Storage {
                 }
                 String startTime = stringComponents[3];
                 String endTime = stringComponents[4];
-                list.add(new Event(stringComponents[1], isDone, startTime, endTime));
+                list.addEventFromStorage(stringComponents[1], isDone, startTime, endTime);
                 break;
             }
         }
