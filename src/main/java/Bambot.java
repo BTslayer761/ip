@@ -1,23 +1,32 @@
-import Bambot.tasks.Task;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Bambot {
-    static ArrayList<Task> myList = new ArrayList<>(); //create an array with initial size 100
+    private TaskList tasks;
+    private Storage storage;
+    private Ui ui;
+
     static Scanner scanner = new Scanner(System.in);//create a scanner
 
+    public Bambot(String filePath) throws IOException {
+        storage = new Storage(filePath);
+        tasks = new TaskList();
+        ui = new Ui();
+        storage.writeToArray(tasks);
+    }
     // A function to print the entire list out
 
-    private static void echo() {
+    private void run() {
+        ui.printHelloMessage();
         while (true) {
             String message = scanner.nextLine();
             boolean validCommand = false;
             try {
-                validCommand = Parser.handleCommands(message, myList);
+                validCommand = Parser.handleCommands(message, tasks);
             } catch (BambotException e) {
                 System.out.println(e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             if (validCommand)
                 return;
@@ -25,13 +34,7 @@ public class Bambot {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(Storage.DIVIDER);
-        System.out.println("Woof! I'm Bambot");
-        System.out.println("What can I do for you?");
-        System.out.println(Storage.DIVIDER);
-        Storage.createFile();
-        Storage.writeToArray("./tasks.txt", myList);
-        echo();
+        new Bambot("data/tasks.txt").run();
     }
 }
 
