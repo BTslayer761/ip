@@ -5,6 +5,14 @@ import java.util.Scanner;
 public class Storage {
     private static String filePath;
 
+    /**
+     * This is a Constructor to ensure that the parent directory of the specified file path exists.
+     * Creates the directory if it does not exit.
+     * Creates the file at the file path if it does not exist
+     *
+      * @param filepath the path to the file used for storing and loading task data
+     * @throws IOException if an IO error occurs while creating the file
+     */
     public Storage(String filepath) throws IOException {
         filePath = filepath;
         File file = new File(filePath);
@@ -17,6 +25,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads from file at the given filePath and identifies what is the class of each object represented at each line.
+     * Identifies all the variables of each object which are separated by a ','.
+     * Add to the Tasklist from the param each Object based on their class and variables.
+     *
+     * @param list the Tasklist instance to which the tasks from the file will be added to.
+     * @throws IOException if an IO error occurs while reading the file.
+     */
     public void writeToArray(TaskList list) throws IOException {
         Scanner fileScanner = new Scanner(new File(filePath));
         while (fileScanner.hasNextLine()) {

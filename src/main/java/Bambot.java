@@ -14,7 +14,7 @@ public class Bambot {
         ui = new Ui();
         storage.writeToArray(tasks);
     }
-    // A function to print the entire list out
+
 
     private void run() {
         ui.printHelloMessage();

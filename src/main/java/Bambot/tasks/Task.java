@@ -34,6 +34,7 @@ public class Task {
         }
     }
 
+    //Reformats how Task is stored into Storage (File)
     public String toStorageString() {
         return (this.getClass().getSimpleName() + "," + Description + "," + isDone);
     }

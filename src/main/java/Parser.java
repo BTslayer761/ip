@@ -1,7 +1,13 @@
 import java.io.IOException;
 
 public class Parser {
-
+    /**
+     * Identifies the different actions the user wants to do and executes different functions
+     * The command identified will be base off the first input before the spacing.
+     * @param message Entire input command by the user.
+     * @param tasks The Tasklist which the commands/functions will execute on
+     * @return true if the command is "bye" to exit out of loop else false for every other command
+     **/
     public static boolean handleCommands(String message, TaskList tasks) throws BambotException, IOException {
         String[] commandAndInput = message.split(" ", 2);
         String command = commandAndInput[0].toLowerCase(); //ensure the command is recognised regardless of capitalisation
