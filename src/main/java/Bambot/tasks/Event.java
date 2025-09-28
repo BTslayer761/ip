@@ -1,23 +1,15 @@
 package Bambot.tasks;
 
-public class Event extends Task {
-    private String startTime;
-    private String endTime;
+import java.time.LocalDate;
 
-    public Event(String Description, boolean isDone, String startTime, String endTime) {
+public class Event extends Task {
+    private LocalDate startTime;
+    private LocalDate endTime;
+
+    public Event(String Description, boolean isDone, LocalDate startTime, LocalDate endTime) {
         super(Description, isDone);
         this.startTime = startTime;
         this.endTime = endTime;
-    }
-
-    public String getStartTime() {
-
-        return startTime;
-    }
-
-    public String getEndTime() {
-
-        return endTime;
     }
 
     @Override

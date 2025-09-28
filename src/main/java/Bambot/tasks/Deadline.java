@@ -1,20 +1,15 @@
 package Bambot.tasks;
 
-public class Deadline extends Task {
-    private String doneBy;
+import java.time.LocalDate;
 
-    public Deadline(String description, boolean isDone, String deadline) {
+public class Deadline extends Task {
+    private LocalDate doneBy;
+
+    public Deadline(String description, boolean isDone, LocalDate deadline) {
         super(description, isDone);
         doneBy = deadline;
     }
 
-    public String getDoneBy() {
-        return doneBy;
-    }
-
-    public String getDeadLine() {
-        return doneBy;
-    }
 
     @Override
     public String toString() {
