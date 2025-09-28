@@ -26,7 +26,6 @@ public class Storage {
             int stringComponentsLength = stringComponents.length;
             if (stringComponentsLength >= 3) {
                 isDone = Boolean.parseBoolean(stringComponents[2].trim());
-                System.out.println("isDone: " + isDone);
             }
             switch (stringComponents[0]) {
             case "ToDo":
