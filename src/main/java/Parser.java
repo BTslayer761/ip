@@ -32,8 +32,15 @@ public class Parser {
         case "unmark":
             tasks.unmarkTask(input);
             break;
+        case "find":
+            tasks.findTask(input);
+            break;
+        case "help":
+            Ui.printCommands();
+            break;
         default:
-            System.out.println(message + " is not a valid command");
+            System.out.println(message + " is not a valid command.");
+            System.out.println("Use command help to list the possible commands available ");
             System.out.println(Ui.DIVIDER);
             break;
         }

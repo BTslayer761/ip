@@ -114,6 +114,19 @@ public class TaskList {
             System.out.println("Task " + markIndex + " has been successfully marked");
         } catch (IndexOutOfBoundsException e) {
             throw new BambotException("Index is out of bounds:" + input + "\n" + "Pls use a number in the list");
+
+    public void findTask(String keyword) throws BambotException {
+        int count = 1;
+        System.out.println(Ui.DIVIDER);
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                System.out.println(task);
+                count++;
+            }
+        }
+        if (count == 1) {
+            System.out.println(Ui.DIVIDER);
+            throw new BambotException("Error: No task found");
         }
     }
 
