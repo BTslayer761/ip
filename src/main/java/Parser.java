@@ -4,8 +4,9 @@ public class Parser {
     /**
      * Identifies the different actions the user wants to do and executes different functions
      * The command identified will be base off the first input before the spacing.
+     *
      * @param message Entire input command by the user.
-     * @param tasks The Tasklist which the commands/functions will execute on
+     * @param tasks the Tasklist which the commands/functions will execute on
      * @return true if the command is "bye" to exit out of loop else false for every other command
      **/
     public static boolean handleCommands(String message, TaskList tasks) throws BambotException, IOException {
