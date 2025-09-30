@@ -70,7 +70,12 @@ public class TaskList {
         if (inputs.length != 2) {
             throw new BambotException("Error: Invalid input format. Correct format: deadline description /from (yyyy-mm-dd)");
         }
-        LocalDate deadline = LocalDate.parse(inputs[1].trim());
+        LocalDate deadline;
+        try{
+            deadline = LocalDate.parse(inputs[1].trim());
+        }catch(DateTimeParseException e){
+            throw new BambotException("Error; Invalid date format. Format should be YYYY-MM-DD");
+        }
         Deadline newItem = new Deadline(inputs[0], false, deadline);
         tasks.add(newItem);
         printList();
