@@ -5,6 +5,7 @@ import Bambot.tasks.ToDo;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -77,7 +78,7 @@ public class TaskList {
 
     /**
      * Adds an event object to the Tasklist.
-     *`splits the input via '/from' and '/to' to get the description, startTime, endTIme variables
+     * splits the input via '/from' and '/to' to get the description, startTime, endTIme variables
      *
      * @param input after the event command.
      * @throws BambotException if the format of input is incorrect and if the format of the startTime and endTime are incorrrect.
@@ -91,8 +92,14 @@ public class TaskList {
         if (timings.length != 2) {
             throw new BambotException("Error: Invalid input format. Correct format: event description /from (yyyy-mm-dd) /to (yyyy-mm-dd)");
         }
-        LocalDate startTime = LocalDate.parse(timings[0].trim());
-        LocalDate endTime = LocalDate.parse(timings[1].trim());
+        LocalDate startTime;
+        LocalDate endTime;
+        try {
+            startTime = LocalDate.parse(timings[0].trim());
+            endTime = LocalDate.parse(timings[1].trim());
+        } catch (DateTimeParseException e) {
+            throw new BambotException("Error; Invalid date format. Format should be YYYY-MM-DD");
+        }
         if (startTime.isAfter(endTime)) {
             throw new BambotException("Error: Invalid start and end date: start date should be before end date");
         }
@@ -190,8 +197,8 @@ public class TaskList {
                 count++;
             }
         }
+        System.out.println(Ui.DIVIDER);
         if (count == 1) {
-            System.out.println(Ui.DIVIDER);
             throw new BambotException("Error: No task found");
         }
     }
