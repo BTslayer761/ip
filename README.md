@@ -1,26 +1,183 @@
-# Duke project template
+# Bambot Chatbot
+Bambot is an application that allows you to manage your task through command line instructions
+on the CLI.It helps to keep track on all your current tasks which will aid you in more efficient
+planning.
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+## Quick Start
+1.Ensure that you have installed JDK 17 or above in your computer
 
-## Setting up in Intellij
+2.Download the latest jar from Github releases
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+3.Go to the terminal and cd into the folder containing the jar file and run ```java -jar Bambot.jar```
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+[!NOTE]
+A folder 'data' will be created which will store the file BambotTasks.txt to contain all the tasks you have on your list
+[!NOTE]
+All new tasks will be written into the BambotTasks.txt after you end the program by entering the command ```bye```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+# Features
+[!NOTE]
+All commands are case insensitive
+## Getting Commands
+Provides a list of all possible commands available
+
+Input Format: ```help```
+
+Example:
+```
+__________________________
+Here are the available commands:
+list                                          - Show all tasks
+todo <description>                            - Add a ToDo task
+deadline <description> /by <date>             - Add a Deadline task
+event <description> /from <time> /to <time>   - Add an Event task
+mark <task number>                            - Mark a task
+unmark <task number>                          - Unmark a task
+delete <task number>                          - Delete a task
+find <keyword>                                - Find tasks containing the keyword
+help                                          - Show this list of commands
+bye                                           - Exit the program
+__________________________
+```
+
+## Add todo Task
+Adds a todo task along with its description
+
+Input Format: ```todo <description>```
+
+Example:```todo Lecture```
+will print out the TaskList after the todo task has been added
+```
+__________________________
+1[T][ ]Lecture
+__________________________
+```
+
+## Add Deadline Task
+Adds a deadline task along with its description and due date
+
+Input Format: ```deadline <description> /by <YYYY-MM-DD>```
+
+Example: ```deadline Chemistry tutorial /by 2025-03-02```
+will print out the TaskList after the deadline task has been added
+```
+__________________________
+1[T][ ]Lecture
+2[D][ ]Chemistry tutorial  (by: 2025-03-02)
+__________________________
+```
+
+## Add Event Task
+Adds an event task along with its description, start date and end date
+
+Input Format: ```event <description> /from <YYYY-MM-DD> /to <YYYY-MM-DD>```
+
+Example: ```event Birthday /from 2025-04-02 /to 2025-04-03``` will print out the TaskList after the event task has been added
+```
+__________________________
+1[T][ ]Lecture
+2[D][ ]Chemistry tutorial  (by: 2025-03-02)
+3[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
+__________________________
+```
+[!WARNING]
+All date inputs must strictly follow the format as shown above else and error will occur
+
+## Print TaskList
+Shows all the tasks current store inside the TaskList. If list is empty it will print 'List is Empty'
+
+Input Format:```list```
+
+Example:
+```
+__________________________
+1[T][ ]Lecture
+2[D][ ]Chemistry tutorial  (by: 2025-03-02)
+3[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
+__________________________
+```
+
+## Marking Task
+Marks the task at the index 
+
+Input Format:```mark <index>```
+
+Example: ```mark 1``` will mark the first task in the TaskList and respond when successful
+```
+Task 1 has been successfully marked
+```
+```
+list
+__________________________
+1[T][x]Lecture
+2[D][ ]Chemistry tutorial  (by: 2025-03-02)
+3[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
+__________________________
+```
+
+## Unmarking Task
+Unmarks the task at the index
+
+Input Format:```unmark <index>```
+
+Example: ```unmark 1``` will unmark the first task in the TaskList and respond when successful
+```
+Task 1 has been successfully unmarked
+```
+```
+list
+__________________________
+1[T][ ]Lecture
+2[D][ ]Chemistry tutorial  (by: 2025-03-02)
+3[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
+__________________________
+```
+
+## Deleting Task
+Deletes the task at the index
+
+Input Format:```delete <index>```
+
+Example: ```delete 2``` will unmark the second task in the TaskList and respond when successful
+```
+Noted. I've removed this task:
+ [D][ ]Chemistry tutorial  (by: 2025-03-02)
+Now you have 2 tasks in the list
+```
+
+## Finding Specific Tasks
+Prints out all tasks containing the keyword 
+
+Input Format:```find <keyword>```
+
+Example: ```find lecture``` will list all the task with the keyword 'lecture'
+
+Given list
+```
+__________________________
+1[T][ ]Lecture
+2[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
+3[D][ ]cs2113 lecture  (by: 2025-03-03)
+__________________________
+```
+Will return
+```
+__________________________
+[T][ ]Lecture
+[D][ ]cs2113 lecture  (by: 2025-03-03)
+__________________________
+```
+
+## Exiting Program
+ Input Format: ```bye```  will print out
+
+```
+__________________________
+Bye. Hope to see you again soon!
+__________________________
+```
+Before exiting the program and adding the newly edited TaskList into the BambotTasks.txt file
+
+
+
+
