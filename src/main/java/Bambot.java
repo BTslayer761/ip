@@ -34,7 +34,7 @@ public class Bambot {
     }
 
     public static void main(String[] args) throws IOException {
-        new Bambot("data/tasks.txt").run();
+        new Bambot("data/BambotTasks.txt").run();
     }
 }
 

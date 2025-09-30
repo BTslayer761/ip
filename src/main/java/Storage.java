@@ -10,7 +10,7 @@ public class Storage {
      * Creates the directory if it does not exit.
      * Creates the file at the file path if it does not exist
      *
-      * @param filepath the path to the file used for storing and loading task data
+     * @param filepath the path to the file used for storing and loading task data
      * @throws IOException if an IO error occurs while creating the file
      */
     public Storage(String filepath) throws IOException {
@@ -23,6 +23,10 @@ public class Storage {
         if (!file.exists()) {
             file.createNewFile();
         }
+    }
+
+    public static String getFilePath() {
+        return filePath;
     }
 
     /**

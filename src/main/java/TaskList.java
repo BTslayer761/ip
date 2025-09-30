@@ -23,7 +23,7 @@ public class TaskList {
      * @throws IOException if an IO error occurs while writing into the file
      */
     public void writeToFile(String filePath) throws IOException {
-        FileWriter taskFile = new FileWriter(filePath);
+        FileWriter taskFile = new FileWriter(Storage.getFilePath());
         for (Task task : tasks) {
             taskFile.write(task.toStorageString() + System.lineSeparator());
         }
