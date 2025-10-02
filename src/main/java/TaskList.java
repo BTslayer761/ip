@@ -204,7 +204,7 @@ public class TaskList {
         }
         System.out.println(Ui.DIVIDER);
         if (count == 1) {
-            throw new BambotException("Error: No task found");
+            throw new BambotException("Error: No such task found");
         }
     }
 
