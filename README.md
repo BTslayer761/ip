@@ -10,10 +10,10 @@ planning.
 
 3.Go to the terminal and cd into the folder containing the jar file and run ```java -jar Bambot.jar```
 
-[!NOTE]
+[NOTE]
 A folder 'data' will be created which will store the file BambotTasks.txt to contain all the tasks you have on your list
 
-[!NOTE]
+[NOTE]
 All new tasks will be written into the BambotTasks.txt after you end the program by entering the command ```bye```
 
 # Features
@@ -72,7 +72,8 @@ Adds an event task along with its description, start date and end date
 
 Input Format: ```event <description> /from <YYYY-MM-DD> /to <YYYY-MM-DD>```
 
-Example: ```event Birthday /from 2025-04-02 /to 2025-04-03``` will print out the TaskList after the event task has been added
+Example: ```event Birthday /from 2025-04-02 /to 2025-04-03``` 
+will print out the TaskList after the event task has been added
 ```
 __________________________
 1[T][ ]Lecture
@@ -80,7 +81,7 @@ __________________________
 3[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
 __________________________
 ```
-[!WARNING]
+[WARNING]
 All date inputs must strictly follow the format as shown above else and error will occur
 
 ## Print TaskList
@@ -94,6 +95,12 @@ __________________________
 1[T][ ]Lecture
 2[D][ ]Chemistry tutorial  (by: 2025-03-02)
 3[E][ ]Birthday (from:2025-04-02 to:2025-04-03)
+__________________________
+```
+OR
+```
+__________________________
+List is empty
 __________________________
 ```
 
