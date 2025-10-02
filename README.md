@@ -12,11 +12,11 @@ planning.
 
 [!NOTE]
 A folder 'data' will be created which will store the file BambotTasks.txt to contain all the tasks you have on your list
+
 [!NOTE]
 All new tasks will be written into the BambotTasks.txt after you end the program by entering the command ```bye```
 
 # Features
-[!NOTE]
 All commands are case insensitive
 ## Getting Commands
 Provides a list of all possible commands available
