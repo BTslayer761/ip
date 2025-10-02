@@ -103,7 +103,7 @@ public class TaskList {
             startTime = LocalDate.parse(timings[0].trim());
             endTime = LocalDate.parse(timings[1].trim());
         } catch (DateTimeParseException e) {
-            throw new BambotException("Error: Invalid date format. Format should be YYYY-MM-DD");
+            throw new BambotException("Error; Invalid date format. Format should be YYYY-MM-DD");
         }
         if (startTime.isAfter(endTime)) {
             throw new BambotException("Error: Invalid start and end date: start date should be before end date");
